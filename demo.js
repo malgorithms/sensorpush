@@ -1,20 +1,7 @@
-# sensorpush
-
-An npm module for sensorpush API access. Lightweight; requires zero external modules, especially no big https request module.
-
-This is unofficial and I'm happy to hand ownership over to the sensorpush team, or another engineer they approve of.
-
-### Installation
-
-```
-npm install sensorpush
-```
-
-### Examples
-
-```javascript
-// signing in requires a call to get an authorization code and apikey,
-// and then a second call to generate an access token.
+//
+// To try this demo, just change the email and password below
+// to match your sensorpush credentials
+//
 
 const sensorpush = require('sensorpush');
 
@@ -41,4 +28,3 @@ sensorpush.api.oauth.authorize(credentials, function (err1, res1) {
     });
   });
 });
-```
