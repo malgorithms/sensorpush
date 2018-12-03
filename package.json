@@ -1,6 +1,6 @@
 {
   "name": "sensorpush",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "module for sensorpush API access",
   "main": "index.js",
   "scripts": {

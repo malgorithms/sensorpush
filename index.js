@@ -36,16 +36,12 @@ function postToSensorPush(opts, cb) {
     res.on('end', function () {
       if (response.statusCode !== 200) {
         err = new Error(`Got status code ${response.statusCode}`);
-        console.error("TODO: remove this logging");
-        console.error(body.toString('utf-8'));
       }
-      if (!err) {
-        try {
-          body = JSON.parse(body.toString('utf-8'));
-        }
-        catch (e) {
-          err = e;
-        }
+      try {
+        body = JSON.parse(body.toString('utf-8'));
+      }
+      catch (e) {
+        err = err || e;
       }
       cb(err, body, response);
     });
@@ -58,7 +54,6 @@ function postToSensorPush(opts, cb) {
 // ---------------------------------------------------------------------
 
 exports.api.oauth.authorize = function (opts, cb) {
-  console.log("Logging in...")
   postToSensorPush({
     path: "/api/v1/oauth/authorize",
     params: {
@@ -71,7 +66,6 @@ exports.api.oauth.authorize = function (opts, cb) {
 // ---------------------------------------------------------------------
 
 exports.api.oauth.accesstoken = function (opts, cb) {
-  console.log("Getting access token...")
   postToSensorPush({
     path: "/api/v1/oauth/accesstoken",
     params: {
@@ -85,9 +79,7 @@ exports.api.oauth.accesstoken = function (opts, cb) {
 exports.api.devices.gateways = function (opts, cb) {
   postToSensorPush({
     path: "/api/v1/devices/gateways",
-    params: {
-      accesstoken: opts.accesstoken
-    }
+    accesstoken: opts.accesstoken
   }, cb);
 };
 
@@ -96,8 +88,18 @@ exports.api.devices.gateways = function (opts, cb) {
 exports.api.devices.sensors = function (opts, cb) {
   postToSensorPush({
     path: "/api/v1/devices/sensors",
+    accesstoken: opts.accesstoken
+  }, cb);
+};
+
+// ---------------------------------------------------------------------
+
+exports.api.samples = function (opts, cb) {
+  postToSensorPush({
+    path: "/api/v1/samples",
+    accesstoken: opts.accesstoken,
     params: {
-      accesstoken: opts.accesstoken
+      limit: opts.limit
     }
   }, cb);
 };
