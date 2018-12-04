@@ -95,11 +95,19 @@ exports.api.devices.sensors = function (opts, cb) {
 // ---------------------------------------------------------------------
 
 exports.api.samples = function (opts, cb) {
+  let startTime = opts.startTime
+  if (startTime && startTime instanceof Date) {
+    startTime = startTime.toISOString()
+  }
+  if (startTime && !(/\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z/).test(startTime)) {
+    throw new Error('Bad `startTime` value. Please provide a Date object or string formatted with Date::toISOString()');
+  }
   postToSensorPush({
     path: "/api/v1/samples",
     accesstoken: opts.accesstoken,
     params: {
-      limit: opts.limit
+      limit: opts.limit,
+      startTime: startTime
     }
   }, cb);
 };
