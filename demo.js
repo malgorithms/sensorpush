@@ -3,7 +3,7 @@
 // to match your sensorpush credentials.
 // Or add your sensorpush email/password to environment variables and use code as is.
 
-const sensorpush = require('./index.js');
+const sensorpush = require('sensorpush');
 const limit = 10
 
 let credentials = {
