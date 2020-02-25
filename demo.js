@@ -1,7 +1,7 @@
 //
 // To try this demo, just change the email and password below
-// to match your sensorpush credentials
-//
+// to match your sensorpush credentials.
+// Or add your sensorpush email/password to environment variables and use code as is.
 
 const sensorpush = require('./index.js');
 const limit = 10
