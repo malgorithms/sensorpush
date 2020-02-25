@@ -1,6 +1,7 @@
 const https = require('https');
 
 exports.api = { oauth: {}, devices: {} };
+exports.promise = { oauth: {}, devices: {} };
 
 // ---------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ function postToSensorPush(opts, cb) {
   };
   if (accesstoken) {
     headers.Authorization = accesstoken;
-  };
+  }
   let options = {
     hostname: "api.sensorpush.com",
     port: 443,
@@ -46,7 +47,10 @@ function postToSensorPush(opts, cb) {
       cb(err, body, response);
     });
   });
-  req.on('error', function (e) { err = e });
+  req.on('error', function (e) {
+      err = e
+    }
+  );
   req.write(postData);
   req.end()
 }
@@ -99,7 +103,7 @@ exports.api.samples = function (opts, cb) {
   if (startTime && startTime instanceof Date) {
     startTime = startTime.toISOString()
   }
-  if (startTime && !(/\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z/).test(startTime)) {
+  if (startTime && !(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/).test(startTime)) {
     throw new Error('Bad `startTime` value. Please provide a Date object or string formatted with Date::toISOString()');
   }
   postToSensorPush({
@@ -111,3 +115,100 @@ exports.api.samples = function (opts, cb) {
     }
   }, cb);
 };
+
+// Promise based functions
+// ---------------------------------------------------------------------
+
+exports.promise.oauth.authorize = opts => {
+  return new Promise((resolve, reject) => {
+    return postToSensorPush({
+      path: "/api/v1/oauth/authorize",
+      params: {
+        email: opts.email,
+        password: opts.password
+      }
+    }, function callback (err, data) {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+}
+
+// ---------------------------------------------------------------------
+
+exports.promise.oauth.accesstoken = function (opts) {
+  return new Promise((resolve, reject) => {
+    return postToSensorPush({
+      path: "/api/v1/oauth/accesstoken",
+      params: {
+        authorization: opts.authorization
+      }
+    }, function callback (err, data) {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+}
+
+// ---------------------------------------------------------------------
+
+exports.promise.devices.gateways = function (opts) {
+  return new Promise((resolve, reject) => {
+    return postToSensorPush({
+      path: "/api/v1/devices/gateways",
+      accesstoken: opts.accesstoken
+    }, function callback (err, data) {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+}
+
+// ---------------------------------------------------------------------
+
+exports.promise.devices.sensors = function (opts) {
+  return new Promise((resolve, reject) => {
+    return postToSensorPush({
+      path: "/api/v1/devices/sensors",
+      accesstoken: opts.accesstoken
+    }, function callback (err, data) {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+}
+
+// ---------------------------------------------------------------------
+
+exports.promise.samples = function (opts) {
+  let startTime = opts.startTime
+  if (startTime && startTime instanceof Date) {
+    startTime = startTime.toISOString()
+  }
+  if (startTime && !(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/).test(startTime)) {
+    throw new Error('Bad `startTime` value. Please provide a Date object or string formatted with Date::toISOString()');
+  }
+  return new Promise((resolve, reject) => {
+    return postToSensorPush({
+      path: "/api/v1/samples",
+      accesstoken: opts.accesstoken,
+      params: {
+        limit: opts.limit,
+        startTime: startTime
+      }
+    }, function callback (err, data) {
+      if (err) {
+        reject(err)
+      }
+      resolve(data)
+    })
+  })
+}
