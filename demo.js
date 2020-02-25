@@ -7,8 +7,8 @@ const sensorpush = require('./index.js');
 const limit = 10
 
 let credentials = {
-  email: "tomwallace75@hotmail.com",
-  password: "6#3H#577RjEW2S@ymC*W"
+  email: process.env.SENSOR_PUSH_EMAIL,
+  password: process.env.SENSOR_PUSH_PASSWORD
 };
 
 function init (isPromise) {
