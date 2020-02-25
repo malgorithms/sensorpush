@@ -8,7 +8,7 @@ exports.promise = { oauth: {}, devices: {} };
 function postToSensorPush(opts, cb) {
   let params = opts.params || {};
   let path = opts.path;
-  let accesstoken = opts.accesstoken; // possibly undefined
+  let accessToken = opts.accessToken; // possibly undefined
   let postData = JSON.stringify(params)
 
   let headers = {
@@ -16,8 +16,8 @@ function postToSensorPush(opts, cb) {
     'Content-Type': 'application/json',
     'Content-Length': postData.length
   };
-  if (accesstoken) {
-    headers.Authorization = accesstoken;
+  if (accessToken) {
+    headers.Authorization = accessToken;
   }
   let options = {
     hostname: "api.sensorpush.com",
@@ -69,7 +69,7 @@ exports.api.oauth.authorize = function (opts, cb) {
 
 // ---------------------------------------------------------------------
 
-exports.api.oauth.accesstoken = function (opts, cb) {
+exports.api.oauth.accessToken = function (opts, cb) {
   postToSensorPush({
     path: "/api/v1/oauth/accesstoken",
     params: {
@@ -83,7 +83,7 @@ exports.api.oauth.accesstoken = function (opts, cb) {
 exports.api.devices.gateways = function (opts, cb) {
   postToSensorPush({
     path: "/api/v1/devices/gateways",
-    accesstoken: opts.accesstoken
+    accessToken: opts.accessToken
   }, cb);
 };
 
@@ -92,7 +92,7 @@ exports.api.devices.gateways = function (opts, cb) {
 exports.api.devices.sensors = function (opts, cb) {
   postToSensorPush({
     path: "/api/v1/devices/sensors",
-    accesstoken: opts.accesstoken
+    accessToken: opts.accessToken
   }, cb);
 };
 
@@ -108,7 +108,7 @@ exports.api.samples = function (opts, cb) {
   }
   postToSensorPush({
     path: "/api/v1/samples",
-    accesstoken: opts.accesstoken,
+    accessToken: opts.accessToken,
     params: {
       limit: opts.limit,
       startTime: startTime
@@ -138,7 +138,7 @@ exports.promise.oauth.authorize = opts => {
 
 // ---------------------------------------------------------------------
 
-exports.promise.oauth.accesstoken = function (opts) {
+exports.promise.oauth.accessToken = function (opts) {
   return new Promise((resolve, reject) => {
     return postToSensorPush({
       path: "/api/v1/oauth/accesstoken",
@@ -160,7 +160,7 @@ exports.promise.devices.gateways = function (opts) {
   return new Promise((resolve, reject) => {
     return postToSensorPush({
       path: "/api/v1/devices/gateways",
-      accesstoken: opts.accesstoken
+      accessToken: opts.accessToken
     }, function callback (err, data) {
       if (err) {
         reject(err)
@@ -176,7 +176,7 @@ exports.promise.devices.sensors = function (opts) {
   return new Promise((resolve, reject) => {
     return postToSensorPush({
       path: "/api/v1/devices/sensors",
-      accesstoken: opts.accesstoken
+      accessToken: opts.accessToken
     }, function callback (err, data) {
       if (err) {
         reject(err)
@@ -199,7 +199,7 @@ exports.promise.samples = function (opts) {
   return new Promise((resolve, reject) => {
     return postToSensorPush({
       path: "/api/v1/samples",
-      accesstoken: opts.accesstoken,
+      accessToken: opts.accessToken,
       params: {
         limit: opts.limit,
         startTime: startTime
