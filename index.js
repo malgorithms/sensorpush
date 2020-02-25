@@ -53,10 +53,7 @@ function postToSensorPush(opts, cb) {
       cb(err, body, response);
     });
   });
-  req.on('error', function (e) {
-      err = e
-    }
-  );
+  req.on('error', function (e) { err = e });
   req.write(postData);
   req.end()
 }
