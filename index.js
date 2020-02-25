@@ -3,6 +3,12 @@ const https = require('https');
 exports.api = { oauth: {}, devices: {} };
 exports.promise = { oauth: {}, devices: {} };
 
+const START_TIME_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/
+
+function validateStartTime (startTime) {
+  return startTime && START_TIME_REGEX.test(startTime)
+}
+
 // ---------------------------------------------------------------------
 
 function postToSensorPush(opts, cb) {
@@ -103,7 +109,7 @@ exports.api.samples = function (opts, cb) {
   if (startTime && startTime instanceof Date) {
     startTime = startTime.toISOString()
   }
-  if (startTime && !(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/).test(startTime)) {
+  if (!validateStartTime(startTime)) {
     throw new Error('Bad `startTime` value. Please provide a Date object or string formatted with Date::toISOString()');
   }
   postToSensorPush({
@@ -193,7 +199,7 @@ exports.promise.samples = function (opts) {
   if (startTime && startTime instanceof Date) {
     startTime = startTime.toISOString()
   }
-  if (startTime && !(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/).test(startTime)) {
+  if (!validateStartTime(startTime)) {
     throw new Error('Bad `startTime` value. Please provide a Date object or string formatted with Date::toISOString()');
   }
   return new Promise((resolve, reject) => {
