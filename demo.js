@@ -2,35 +2,24 @@
 // To try this demo, just change the email and password below
 // to match your sensorpush credentials
 //
+const sensorpush = require('sensorpush').api
+const email = 'you@foo.com'
+const password = 'BO000yAH!'
 
-const sensorpush = require('sensorpush');
+async function main() {
+  try {
+    // autorize ourselves
+    const {authorization} = await sensorpush.oauth.authorize(email, password)
+    const {accesstoken} = await sensorpush.oauth.accesstoken(authorization)
 
-let credentials = {
-  email: "you@foo.com",
-  password: "BO000yAH!"
-};
+    // get and print some data
+    const sensors = await sensorpush.devices.sensors(accesstoken)
+    const gateways = await sensorpush.devices.gateways(accesstoken)
+    const samples = await sensorpush.samples(accesstoken, new Date(Date.now() - 3600000), 5)
+    console.log({sensors, gateways, samples})
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-// step 1: get an authorization code
-sensorpush.api.oauth.authorize(credentials, function (err1, res1) {
-
-  // step 2: get an access token
-  sensorpush.api.oauth.accesstoken({ authorization: res1.authorization }, function (err2, res2) {
-
-    let accesstoken = res2.accesstoken;
-
-    // steps 3-5: get data, using the access token
-    sensorpush.api.devices.sensors({ accesstoken: accesstoken }, function (err3, res3) {
-      console.log("Sensor response:", res3);
-    });
-
-    sensorpush.api.devices.gateways({ accesstoken: accesstoken }, function (err4, res4) {
-      console.log("Gateways response:", res4);
-    });
-
-    // get any readings from the last 10 mins
-    let startTime = new Date(Date.now() - 60 * 1000 * 10);
-    sensorpush.api.samples({ limit: 10, startTime: startTime, accesstoken: accesstoken }, function (err5, res5) {
-      console.log("Samples response:", res5);
-    });
-  });
-});
+main()
