@@ -4,7 +4,7 @@ This is a JavaScript/TypeScript npm module for the SensorPush API. It is lightwe
 
 It is unofficial and I'm happy to hand ownership over to the [sensorpush.com](http://www.sensorpush.com) team, or another engineer they approve of.
 
-![SensorPush](http://www.sensorpush.com/assets/DSC_8363-2-sillo-4baaecdaddd21e48ed0b8f3541fcf136fa1a1026600d017002266ca18519146d.png)
+![SensorPush](https://github.com/malgorithms/sensorpush/raw/master/media/logo.png)
 
 ### Installation
 
