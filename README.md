@@ -1,6 +1,10 @@
 # sensorpush
 
-This is a JavaScript/TypeScript npm module for the SensorPush API. It is lightweight; this module requires ZERO external modules, especially no big `request` or `node-fetch` module.
+Own a sensorpush sensor? 
+
+This is a JavaScript/TypeScript npm module for the SensorPush API, so you can pull and look at your data from any Node program.
+
+It is lightweight; this module requires zero external modules, not even `node-fetch` or `request`.
 
 It is unofficial and I'm happy to hand ownership over to the [sensorpush.com](http://www.sensorpush.com) team, or another engineer they approve of.
 
