@@ -1,6 +1,6 @@
 # sensorpush
 
-Own a SensorPush temp/humidity sensor? 
+Own a SensorPush temp/humidity sensor? Or a whole fleet of them?
 
 This is a JavaScript/TypeScript npm module for the SensorPush API, so you can pull and look at your data from any Node program. For example, you could grab your data and send to external stats services, store in a datbase, trigger your own alerts...whatever.
 
