@@ -20,8 +20,6 @@ yarn add sensorpush
 
 ### A quick example
 
-It's very easy to get all your sensorpush data in a NodeJs program.
-
 ```javascript
 const sensorpush = require('sensorpush').api
 const email = 'you@foo.com'
@@ -45,3 +43,5 @@ async function main() {
 
 main()
 ```
+
+Enjoy!
